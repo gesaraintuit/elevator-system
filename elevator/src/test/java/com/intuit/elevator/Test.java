@@ -6,19 +6,15 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] ia = {11,2,4,9,23,7,3,5};
-		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
-		for (int i : ia) {
-			pq.add(i);
-		}
-		System.out.println(pq);
-		System.out.println(pq.poll());
-		System.out.println(pq);
-		System.out.println(pq.contains(5));
-		pq.remove(9);
-		System.out.println(pq);
-		System.out.println(pq.poll());
-		System.out.println(pq);
+		
+		Elevator e = new Elevator(10,null,10);
+		e.addFloorToDestination(2);
+		e.addFloorToDestination(4);
+		e.addFloorToDestination(8);
+		e.run();
+		e.addFloorToDestination(9);
+		e.addFloorToDestination(7);
+		e.addFloorToDestination(1);
 	}
 
 }

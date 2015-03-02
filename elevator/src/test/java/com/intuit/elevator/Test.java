@@ -7,7 +7,7 @@ public class Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Elevator e = new Elevator(10,null,10);
+		SimpleElevator e = new SimpleElevator(10,null,10);
 		e.addFloorToDestination(2);
 		e.addFloorToDestination(4);
 		e.addFloorToDestination(8);

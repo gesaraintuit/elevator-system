@@ -68,6 +68,7 @@ public class ElevatorApplication {
 		} catch (NumberFormatException ex) {
 			System.out
 					.println("Incorrect input, the program will exit now. Please try again later.");
+			System.exit(0);
 		}
 		while (count-- > 0) {
 			String line = in.nextLine();

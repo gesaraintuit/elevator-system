@@ -1,14 +1,14 @@
-package com.intuit.elevator.simulator;
+package com.intuit.building.elevator.application;
 
 import java.util.Observable;
 
+import com.intuit.building.elevator.SimpleElevator;
+import com.intuit.building.elevator.control.RequestHandler;
+import com.intuit.building.elevator.control.SimpleRequestHandler;
 import com.intuit.building.elevator.floor.FloorControl;
 import com.intuit.building.elevator.floor.SimpleFloorControl;
-import com.intuit.elevator.Elevator;
-import com.intuit.elevator.SimpleElevator;
-import com.intuit.elevator.control.RequestHandler;
-import com.intuit.elevator.control.SimpleRequestHandler;
-import com.intuit.elevator.exception.InvalidElevatorRequestException;
+import com.intuit.building.elevator.Elevator;
+import com.intuit.building.elevator.exception.InvalidElevatorRequestException;
 
 public class ElevatorApplication {
 	Elevator elevators;

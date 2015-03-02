@@ -5,7 +5,7 @@ package com.intuit.building.elevator.floor;
 
 import java.util.Observable;
 
-import com.intuit.elevator.control.ElevatorRequest;
+import com.intuit.building.elevator.control.ElevatorRequest;
 
 /**
  * @author sunparmar

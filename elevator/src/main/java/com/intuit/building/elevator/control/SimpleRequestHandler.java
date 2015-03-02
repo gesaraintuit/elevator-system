@@ -1,11 +1,11 @@
-package com.intuit.elevator.control;
+package com.intuit.building.elevator.control;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.intuit.elevator.Elevator;
+import com.intuit.building.elevator.Elevator;
 
 public class SimpleRequestHandler implements RequestHandler {
 	List<Elevator> elevators;

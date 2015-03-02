@@ -1,9 +1,11 @@
 /**
  * 
  */
-package com.intuit.elevator;
+package com.intuit.building.elevator;
 
 import java.util.PriorityQueue;
+
+import com.intuit.building.elevator.exception.InvalidElevatorRequestException;
 
 /**
  * @author sunparmar
@@ -19,7 +21,7 @@ public interface Elevator {
 	void openDoor();
 	void holdDoor();
 	void closeDoor();
-	void moveUp();
-	void moveDown() ;
+	void moveUp() throws InvalidElevatorRequestException;
+	void moveDown() throws InvalidElevatorRequestException;
 	boolean isStanding();
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.intuit.elevator;
+package com.intuit.building.elevator;
 
 /**
  * @author sunparmar

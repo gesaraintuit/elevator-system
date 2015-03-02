@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.intuit.elevator.control;
+package com.intuit.building.elevator.control;
 
 import java.util.Observer;
 
-import com.intuit.elevator.Elevator;
+import com.intuit.building.elevator.Elevator;
 
 /**
  * @author sunparmar

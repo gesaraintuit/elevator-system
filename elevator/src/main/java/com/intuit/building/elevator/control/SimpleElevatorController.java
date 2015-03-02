@@ -1,14 +1,15 @@
 /**
  * 
  */
-package com.intuit.elevator.control;
+package com.intuit.building.elevator.control;
 
 import java.util.PriorityQueue;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import com.intuit.elevator.Elevator;
-import com.intuit.elevator.ElevatorState;
+import com.intuit.building.elevator.ElevatorState;
+import com.intuit.building.elevator.Elevator;
+import com.intuit.building.elevator.exception.InvalidElevatorRequestException;
 
 /**
  * @author sunparmar
@@ -110,11 +111,19 @@ public class SimpleElevatorController implements ElevatorController {
 	public void moveOneUp(Elevator e) {
 		//TODO : publish changed state
 		//move slowly add sleep
-		e.moveUp();
+		try {
+			e.moveUp();
+		} catch (InvalidElevatorRequestException e1) {
+			System.out.println("Invalid request " + e1.getMessage() );
+		}
 	}
 	public void moveOneDown(Elevator e) {
 		//TODO : publish changed state
 		//move slowly add sleep
-		e.moveDown();
+		try {
+			e.moveDown();
+		} catch (InvalidElevatorRequestException e1) {
+			System.out.println("Invalid request " + e1.getMessage() );
+		}
 	}
 }

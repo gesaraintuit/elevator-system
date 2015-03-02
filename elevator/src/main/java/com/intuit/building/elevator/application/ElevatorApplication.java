@@ -19,7 +19,7 @@ public class ElevatorApplication {
 		this.totalFloors = floors;
 		this.elevators = new SimpleElevator(floors);
 		FloorControl fc[] = new FloorControl[floors];
-		RequestHandler re = new SimpleRequestHandler(floors, elevators);
+		RequestHandler re = new SimpleRequestHandler(floors, elevators,true);
 
 		for(int i = 1 ; i <= floors ; i++){
 			SimpleFloorControl sfc = new SimpleFloorControl(i);
@@ -43,6 +43,7 @@ public class ElevatorApplication {
 		int floors = new Integer(args[0]);
 		ElevatorApplication instance = new ElevatorApplication();
 		instance.init(floors);
+		
 	}
 	/**
 	 * @return the elevators

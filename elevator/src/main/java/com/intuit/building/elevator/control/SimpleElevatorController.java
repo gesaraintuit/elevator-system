@@ -10,6 +10,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import com.intuit.building.elevator.ElevatorState;
 import com.intuit.building.elevator.Elevator;
 import com.intuit.building.elevator.exception.InvalidElevatorRequestException;
+import com.intuit.building.elevator.floor.Direction;
 
 /**
  * @author sunparmar
@@ -20,6 +21,10 @@ public class SimpleElevatorController implements ElevatorController {
 	/* (non-Javadoc)
 	 * @see com.intuit.elevator.control.ElevatorController#move(com.intuit.elevator.Elevator)
 	 */
+	boolean isSimulation = false;
+	public SimpleElevatorController(boolean simFlag){
+		isSimulation = simFlag;
+	}
 	public void move(Elevator e) {
 		if (e.isStanding()){
 		if(CollectionUtils.isEmpty(e.getUpQueue())){
@@ -89,11 +94,22 @@ public class SimpleElevatorController implements ElevatorController {
 	/**
 	 * Add floor to the destination queue
 	 */
-	public void addFloorToDestination(Elevator e, int floor) {
-		if(floor > e.getCurrentFloor())
-			e.getUpQueue().add(floor);
-		else
-			e.getDownQueue().add(floor);
+	public void addFloorToDestination(Elevator e, int floor, Direction direction) {
+		if(direction !=null){
+			switch (direction) {
+			case UP:
+				e.getUpQueue().add(floor);;
+				
+			case DOWN:
+				e.getDownQueue().add(floor);;
+
+			}
+		} else{
+			if(floor > e.getCurrentFloor())
+				e.getUpQueue().add(floor);
+			else
+				e.getDownQueue().add(floor);
+		}
 	}
 	
 	private void serverTheFloor(Elevator e) {
@@ -105,6 +121,9 @@ public class SimpleElevatorController implements ElevatorController {
 
 	public void updateState(Elevator e, ElevatorState state) {
 		//TODO : publish changed state
+		//move slowly add sleep
+		if(isSimulation)
+			System.out.println("Changing elevator state from " + e.getState() + " to " + state);
 		e.setState(state);
 	}
 
@@ -112,18 +131,29 @@ public class SimpleElevatorController implements ElevatorController {
 		//TODO : publish changed state
 		//move slowly add sleep
 		try {
+			Thread.sleep(2000);
 			e.moveUp();
+			if(isSimulation)
+				System.out.println(e);
 		} catch (InvalidElevatorRequestException e1) {
 			System.out.println("Invalid request " + e1.getMessage() );
+		} catch(InterruptedException e2){
+			
 		}
 	}
 	public void moveOneDown(Elevator e) {
 		//TODO : publish changed state
 		//move slowly add sleep
 		try {
+			Thread.sleep(2000);
 			e.moveDown();
+			if(isSimulation)
+				System.out.println(e);
 		} catch (InvalidElevatorRequestException e1) {
 			System.out.println("Invalid request " + e1.getMessage() );
+		}catch(InterruptedException e2){
+			
 		}
+		
 	}
 }

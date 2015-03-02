@@ -11,14 +11,15 @@ public class SimpleRequestHandler implements RequestHandler {
 	List<Elevator> elevators;
 	int floors;
 	ConcurrentLinkedQueue<Request> requests;
-	ElevatorController eController = new SimpleElevatorController();
+	ElevatorController eController;
 	
-	public SimpleRequestHandler(int floors, Elevator e) {
+	public SimpleRequestHandler(int floors, Elevator e, boolean simFlag) {
 		super();
 		this.elevators = new ArrayList<Elevator>();
 		elevators.add(e);
 		this.floors = floors;
 		this.requests = new ConcurrentLinkedQueue<Request>();
+		eController = new SimpleElevatorController(simFlag);
 	}
 	public void run() {
 		while (!Thread.currentThread().isInterrupted()) {
@@ -26,7 +27,7 @@ public class SimpleRequestHandler implements RequestHandler {
 				Request request = requests.poll();
 				Elevator e = getBestElevatorToServe(request);
 				if(request.getFloor() != -1){
-					eController.addFloorToDestination(e, request.getFloor());
+					eController.addFloorToDestination(e, request.getFloor(),request.getDirection());
 					eController.move(e);
 				} else{
 					eController.updateState(e,request.getState());

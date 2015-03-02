@@ -18,142 +18,176 @@ import com.intuit.building.elevator.floor.Direction;
  */
 public class SimpleElevatorController implements ElevatorController {
 
-	/* (non-Javadoc)
-	 * @see com.intuit.elevator.control.ElevatorController#move(com.intuit.elevator.Elevator)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.intuit.elevator.control.ElevatorController#move(com.intuit.elevator
+	 * .Elevator)
 	 */
 	boolean isSimulation = false;
-	public SimpleElevatorController(boolean simFlag){
+	private Elevator e;
+
+	public SimpleElevatorController(boolean simFlag) {
 		isSimulation = simFlag;
 	}
+
 	public void move(Elevator e) {
-		if (e.isStanding()){
-		if(CollectionUtils.isEmpty(e.getUpQueue())){
-			e.setState(ElevatorState.DOWN);
-			moveDown(e);
-		} else if(CollectionUtils.isEmpty(e.getDownQueue())){
-			e.setState(ElevatorState.UP);
-			moveUp(e);
-		} else{
-			e.setState(ElevatorState.IDLE);
-		}
+		if (e.isStanding()) {
+			if (CollectionUtils.isEmpty(e.getUpQueue())) {
+				e.setState(ElevatorState.DOWN);
+				moveDown(e);
+			} else {
+				e.setState(ElevatorState.UP);
+				moveUp(e);
+			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.intuit.elevator.control.ElevatorController#moveUp(com.intuit.elevator.Elevator)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.intuit.elevator.control.ElevatorController#moveUp(com.intuit.elevator
+	 * .Elevator)
 	 */
 	public void moveUp(Elevator e) {
-		 PriorityQueue<Integer> uq = e.getUpQueue();
-		if (CollectionUtils.isEmpty(uq) ) {
+		PriorityQueue<Integer> uq = e.getUpQueue();
+		if (CollectionUtils.isEmpty(uq)) {
 			standOrProcessOtherQueue(e);
-		} else if ( uq.peek().equals(e.getCurrentFloor())) {
+		} else if (uq.peek().equals(e.getCurrentFloor())) {
 			uq.poll();
 			serverTheFloor(e);
 		}
-		if(!uq.isEmpty()){
+		if (!uq.isEmpty() && uq.peek() > e.getCurrentFloor()) {
 			moveOneUp(e);
 			moveUp(e);
-		}else {
+		} else {
 			standOrProcessOtherQueue(e);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.intuit.elevator.control.ElevatorController#moveDown(com.intuit.elevator.Elevator)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.intuit.elevator.control.ElevatorController#moveDown(com.intuit.elevator
+	 * .Elevator)
 	 */
 	public void moveDown(Elevator e) {
-		 PriorityQueue<Integer> dq = e.getDownQueue();
+		PriorityQueue<Integer> dq = e.getDownQueue();
 		if (CollectionUtils.isEmpty(dq)) {
 			standOrProcessOtherQueue(e);
-		} else if ( dq.peek().equals(e.getCurrentFloor())) {
+		} else if (dq.peek().equals(e.getCurrentFloor())) {
 			dq.poll();
 			serverTheFloor(e);
 		}
-		if(!dq.isEmpty()){
+		if (!dq.isEmpty()) {
 			moveOneDown(e);
 			moveDown(e);
-		}else {
+		} else {
 			standOrProcessOtherQueue(e);
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	private void standOrProcessOtherQueue(Elevator e) {
 		PriorityQueue dq = e.getDownQueue();
 		PriorityQueue uq = e.getUpQueue();
-		if(e.getState() == ElevatorState.UP && !CollectionUtils.isEmpty(dq) ){
+		if (e.getState() == ElevatorState.UP && !CollectionUtils.isEmpty(dq)) {
 			e.setState(ElevatorState.DOWN);
 			moveDown(e);
-		}else if(e.getState() == ElevatorState.DOWN && !CollectionUtils.isEmpty(uq)  ){
+		} else if (e.getState() == ElevatorState.DOWN
+				&& !CollectionUtils.isEmpty(uq)) {
 			e.setState(ElevatorState.UP);
 			moveUp(e);
-		}else{
-			e.setState(ElevatorState.IDLE);	
+		} else {
+			e.setState(ElevatorState.IDLE);
 		}
 	}
+
 	/**
 	 * Add floor to the destination queue
 	 */
 	public void addFloorToDestination(Elevator e, int floor, Direction direction) {
-		if(direction !=null){
+		if (direction != null) {
 			switch (direction) {
 			case UP:
-				e.getUpQueue().add(floor);;
-				
+				e.getUpQueue().add(floor);
+				break;
 			case DOWN:
-				e.getDownQueue().add(floor);;
-
+				e.getDownQueue().add(floor);
+				break;
 			}
-		} else{
-			if(floor > e.getCurrentFloor())
+		} else {
+			if (floor > e.getCurrentFloor())
 				e.getUpQueue().add(floor);
 			else
 				e.getDownQueue().add(floor);
 		}
 	}
-	
+
 	private void serverTheFloor(Elevator e) {
-		//publish door activity
+		// publish door activity
 		e.openDoor();
+		if (isSimulation){
+			System.out.println("Serving floor no " + e.getCurrentFloor());
+		}
 		e.holdDoor();
 		e.closeDoor();
 	}
 
 	public void updateState(Elevator e, ElevatorState state) {
-		//TODO : publish changed state
-		//move slowly add sleep
-		if(isSimulation)
-			System.out.println("Changing elevator state from " + e.getState() + " to " + state);
+		// TODO : publish changed state
+		// move slowly add sleep
+		if (isSimulation)
+			System.out.println("Changing elevator state from " + e.getState()
+					+ " to " + state);
 		e.setState(state);
 	}
 
 	public void moveOneUp(Elevator e) {
-		//TODO : publish changed state
-		//move slowly add sleep
+		// TODO : publish changed state
+		// move slowly add sleep
 		try {
 			Thread.sleep(2000);
 			e.moveUp();
-			if(isSimulation)
+			if (isSimulation)
 				System.out.println(e);
 		} catch (InvalidElevatorRequestException e1) {
-			System.out.println("Invalid request " + e1.getMessage() );
-		} catch(InterruptedException e2){
-			
+			System.out.println("Invalid request " + e1.getMessage());
+		} catch (InterruptedException e2) {
+
 		}
 	}
+
 	public void moveOneDown(Elevator e) {
-		//TODO : publish changed state
-		//move slowly add sleep
+		// TODO : publish changed state
+		// move slowly add sleep
 		try {
 			Thread.sleep(2000);
 			e.moveDown();
-			if(isSimulation)
+			if (isSimulation)
 				System.out.println(e);
 		} catch (InvalidElevatorRequestException e1) {
-			System.out.println("Invalid request " + e1.getMessage() );
-		}catch(InterruptedException e2){
-			
+			System.out.println("Invalid request " + e1.getMessage());
+		} catch (InterruptedException e2) {
+
 		}
-		
+
+	}
+
+	public void run() {
+		while (!Thread.currentThread().isInterrupted()) {
+			Elevator el = getElevator();
+			if(el != null && el.isStanding())
+				move(e);
+		}
+	}
+	public void setElevator(Elevator e){
+		this.e = e;
+	}
+	private Elevator getElevator() {
+		return e;
 	}
 }

@@ -4,11 +4,12 @@ import com.intuit.building.elevator.ElevatorState;
 import com.intuit.building.elevator.Elevator;
 import com.intuit.building.elevator.floor.Direction;
 
-public interface ElevatorController {
+public interface ElevatorController extends Runnable {
 	
 	public void move(Elevator e);
 	public void moveUp(Elevator e);
 	public void moveDown(Elevator e);
 	public void updateState(Elevator e, ElevatorState state);
 	public void addFloorToDestination(Elevator e, int floor, Direction direction);
+	public void setElevator(Elevator e);
 }

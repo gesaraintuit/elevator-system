@@ -22,13 +22,14 @@ public class SimpleRequestHandler implements RequestHandler {
 		eController = new SimpleElevatorController(simFlag);
 	}
 	public void run() {
+		new Thread(eController).start();
 		while (!Thread.currentThread().isInterrupted()) {
 			if(!requests.isEmpty()){
 				Request request = requests.poll();
 				Elevator e = getBestElevatorToServe(request);
+				eController.setElevator(e);
 				if(request.getFloor() != -1){
 					eController.addFloorToDestination(e, request.getFloor(),request.getDirection());
-					eController.move(e);
 				} else{
 					eController.updateState(e,request.getState());
 				}

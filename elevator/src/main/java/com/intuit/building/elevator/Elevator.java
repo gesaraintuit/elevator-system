@@ -24,4 +24,6 @@ public interface Elevator {
 	void moveUp() throws InvalidElevatorRequestException;
 	void moveDown() throws InvalidElevatorRequestException;
 	boolean isStanding();
+	public void buttonPressed( int floor);
+	
 }

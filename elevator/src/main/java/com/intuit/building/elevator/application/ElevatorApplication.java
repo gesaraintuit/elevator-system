@@ -33,6 +33,7 @@ public class ElevatorApplication {
 		new Thread(re).start();
 	}
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args)
 			throws InvalidElevatorRequestException, InterruptedException {
 		Scanner in = new Scanner(System.in);
@@ -139,10 +140,5 @@ public class ElevatorApplication {
 	 */
 	public int getTotalFloors() {
 		return totalFloors;
-	}
-
-	private static void printUsage() {
-		System.out.println("Parameter required : no of Floors i.e. start.sh 5");
-
 	}
 }

@@ -113,20 +113,24 @@ public class SimpleElevatorController implements ElevatorController {
 		if (direction != null) {
 			switch (direction) {
 			case UP:
-				e.getUpQueue().add(floor);
+				addToQueue(e.getUpQueue(),floor);
 				break;
 			case DOWN:
-				e.getDownQueue().add(floor);
+				addToQueue(e.getDownQueue(),floor);
 				break;
 			}
 		} else {
 			if (floor > e.getCurrentFloor())
-				e.getUpQueue().add(floor);
+				addToQueue(e.getUpQueue(),floor);
 			else
-				e.getDownQueue().add(floor);
+				addToQueue(e.getDownQueue(),floor);
 		}
 	}
-
+	private void addToQueue(PriorityQueue<Integer> q, Integer floor){
+		if(!q.contains(floor)){
+			q.add(floor);
+		}
+	}
 	private void serverTheFloor(Elevator e) {
 		// publish door activity
 		e.openDoor();

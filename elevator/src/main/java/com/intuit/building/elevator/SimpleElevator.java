@@ -20,13 +20,13 @@ public class SimpleElevator extends Observable implements Elevator {
 		OPEN, CLOSE, HOLD
 	};
 
-	int currentFloor;
+	private int currentFloor;
 	private final PriorityQueue<Integer> upQueue;
 	private final PriorityQueue<Integer> downQueue;
-	ElevatorState state;
-	int lowestFloor;
-	int highestFloor;
-	Door doors;
+	private ElevatorState state;
+	private int lowestFloor;
+	private int highestFloor;
+	private Door doors;
 
 	public SimpleElevator(int buildingSize) {
 		this.state = ElevatorState.IDLE;
@@ -87,8 +87,11 @@ public class SimpleElevator extends Observable implements Elevator {
 
 	/**
 	 * Notify observer ( controller in this case )
+	 * @throws InvalidElevatorRequestException 
 	 */
-	public void buttonPressed(int floor) {
+	public void buttonPressed(int floor) throws InvalidElevatorRequestException {
+		if(!isValidFloor(floor))
+			throw new InvalidElevatorRequestException(floor,"Invalid floor on elevator Control");
 		this.setChanged();
 		notifyObservers(new ElevatorRequest(floor));
 		this.clearChanged();

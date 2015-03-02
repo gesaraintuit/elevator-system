@@ -22,6 +22,8 @@ public class SimpleFloorControl extends Observable implements FloorControl{
 	 * Notify observer ( controller in this case )
 	 */
 	public void buttonPressed(Direction direction){
+		setChanged();
 		notifyObservers(new ElevatorRequest(floor, direction));
+		clearChanged();
 	}
 }

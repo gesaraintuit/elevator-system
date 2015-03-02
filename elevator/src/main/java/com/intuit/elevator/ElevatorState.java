@@ -8,5 +8,5 @@ package com.intuit.elevator;
  *
  */
 public enum ElevatorState {
-	UP, DOWN, MAINTAINANCE, STAND
+	UP, DOWN, MAINTAINANCE, IDLE
 }

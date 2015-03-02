@@ -1,40 +1,50 @@
 package com.intuit.elevator.control;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.intuit.elevator.Elevator;
-import com.intuit.elevator.SimpleElevator;
 
 public class SimpleRequestHandler implements RequestHandler {
-	Elevator[] elevators;
+	List<Elevator> elevators;
 	int floors;
-	int noOfElevators;
 	ConcurrentLinkedQueue<Request> requests;
+	ElevatorController eController = new SimpleElevatorController();
 	
+	public SimpleRequestHandler(int floors, Elevator e) {
+		super();
+		this.elevators = new ArrayList<Elevator>();
+		elevators.add(e);
+		this.floors = floors;
+		this.requests = new ConcurrentLinkedQueue<Request>();
+	}
 	public void run() {
 		while (!Thread.currentThread().isInterrupted()) {
-		    Request request = requests.poll();
-			Elevator e = getBestElevatorToServer();
-			if(request.getFloor() != -1){
-				e.addFloorToDestination(request.getFloor());
-			} else{
-				e.updateState(request.getState());
+			if(!requests.isEmpty()){
+				Request request = requests.poll();
+				Elevator e = getBestElevatorToServe(request);
+				if(request.getFloor() != -1){
+					eController.addFloorToDestination(e, request.getFloor());
+					eController.move(e);
+				} else{
+					eController.updateState(e,request.getState());
+				}
 			}
 		}
 	}
 
-	private Elevator getBestElevatorToServer() {
+	private Elevator getBestElevatorToServe(Request request) {
 		// TODO can be extended for multiple elevators
-		return elevators[0];
+		return elevators.get(0);
 	}
-
+	
 	public void update(Observable o, Object arg) {
 		requests.add((Request)arg);
 	}
 
 	public void registerElevator(Elevator e) {
-		elevators[0] = e;
-		
+		elevators.add(e);
 	}
 }

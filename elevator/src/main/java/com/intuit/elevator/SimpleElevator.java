@@ -6,7 +6,6 @@ package com.intuit.elevator;
 import java.util.Collections;
 import java.util.Observable;
 import java.util.PriorityQueue;
-import java.util.concurrent.BlockingQueue;
 
 import com.intuit.elevator.control.ElevatorRequest;
 import com.intuit.elevator.exception.InvalidElevatorRequestException;
@@ -32,9 +31,9 @@ public class SimpleElevator extends Observable implements Elevator {
 		this.state = ElevatorState.STAND;
 		upQueue = new PriorityQueue<Integer>(buildingSize);
 		downQueue = new PriorityQueue<Integer>(buildingSize,Collections.reverseOrder());
-		lowestFloor =0;
+		lowestFloor =1;
 		highestFloor = buildingSize;
-		currentFloor = 0;
+		currentFloor = 1;
 		this.speed = 1000L*speed;
 		doors = new Door();
 	}
@@ -199,5 +198,9 @@ public class SimpleElevator extends Observable implements Elevator {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void updateState(ElevatorState state) {
+		// TODO currently not supported in simple elevator
 	}
 }

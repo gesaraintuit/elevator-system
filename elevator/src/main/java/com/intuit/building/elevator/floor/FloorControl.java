@@ -9,5 +9,5 @@ package com.intuit.building.elevator.floor;
  *
  */
 public interface FloorControl {
-	public void buttonPressed(int floor, Direction direction);
+	public void buttonPressed(Direction direction);
 }

@@ -9,4 +9,6 @@ package com.intuit.elevator;
  */
 public interface Elevator extends Runnable{
 	void addFloorToDestination(int i);
+
+	void updateState(ElevatorState state);
 }
